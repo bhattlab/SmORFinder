@@ -41,6 +41,7 @@ def run_prodigal_multithread(prodigal_path, infile, outdir, threads):
     record_count = count_records_in_fasta(infile)
     print("The FASTA file contains %d records..." % record_count)
 
+    print("Writing FASTA file to batches for multithreading..." % record_count)
     record_count_per_file = math.ceil(record_count / threads)
     filecount = 0
     outrecs = []
