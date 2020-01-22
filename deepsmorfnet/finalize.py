@@ -28,7 +28,7 @@ def _finalize(outdir, tmp_dir):
     SeqIO.write(keep_ffn, join(outdir, final_prefix + '.ffn'), 'fasta')
 
     final_table = []
-    outgff = open(join(tmp_dir, final_prefix + '.gff'), 'w')
+    outgff = open(join(outdir, final_prefix + '.gff'), 'w')
     for rec in parse_gff(join(tmp_dir, 'prodigal.small.gff')):
         rec = rec.split('\t')
         rec_id = rec[-1].split(';')[0].split('=')[-1]
