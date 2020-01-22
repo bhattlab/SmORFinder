@@ -10,10 +10,10 @@ def run_model(fiveprime_seqs, orf_seqs, threeprime_seqs, sensitive):
 
     if sensitive == True:
         print("Using sensitive model...")
-        MODEL_PATH = join(dirname(__file__), '../data/keras/sensitive_model.h5')
+        MODEL_PATH = join(dirname(__file__), 'data/keras/sensitive_model.h5')
     else:
         print("Using precise model...")
-        MODEL_PATH = join(dirname(__file__), '../data/keras/precise_model.h5')
+        MODEL_PATH = join(dirname(__file__), 'data/keras/precise_model.h5')
 
     sys.stderr = open(os.devnull, 'w')
     from keras.models import load_model

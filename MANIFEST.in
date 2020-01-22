@@ -1,6 +1,6 @@
-include bin/hmmscan
-include bin/hmmsearch
-include bin/prodigal
-include data/hmm/smorfams.hmm
-include data/keras/precise_model.h5
-include data/keras/sensitive_model.h5
+include deepsmorfnet/bin/hmmscan
+include deepsmorfnet/bin/hmmsearch
+include deepsmorfnet/bin/prodigal
+include deepsmorfnet/data/hmm/smorfams.hmm
+include deepsmorfnet/data/keras/precise_model.h5
+include deepsmorfnet/data/keras/sensitive_model.h5

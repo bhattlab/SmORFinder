@@ -6,9 +6,9 @@ from deepsmorfnet.run import _run
 from os.path import join, dirname
 
 
-PRODIGAL_PATH = join(dirname(__file__), '../bin/prodigal')
-HMMSEARCH_PATH = join(dirname(__file__), '../bin/hmmsearch')
-SMORFHMM_PATH = join(dirname(__file__), '../data/hmm/smorfams.hmm')
+PRODIGAL_PATH = join(dirname(__file__), 'bin/prodigal')
+HMMSEARCH_PATH = join(dirname(__file__), 'bin/hmmsearch')
+SMORFHMM_PATH = join(dirname(__file__), 'data/hmm/smorfams.hmm')
 
 @click.group(cls=CustomHelp)
 def cli():
