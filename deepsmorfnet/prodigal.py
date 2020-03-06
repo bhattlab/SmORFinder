@@ -5,7 +5,6 @@ from Bio import SeqIO
 from random import choices
 import string
 import gzip
-import sys
 import math
 from multiprocessing import Pool
 from itertools import cycle
@@ -48,7 +47,7 @@ def run_prodigal_multithread(prodigal_path, infile, outdir, threads):
 
     if infile.endswith('.gz'):
         infile = gzip.open(infile, "rt")
-    
+
     for record in SeqIO.parse(infile, 'fasta'):
         outrecs.append(record)
         if len(outrecs) == record_count_per_file:

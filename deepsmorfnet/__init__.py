@@ -1,4 +1,3 @@
-import pandas as pd
 from deepsmorfnet.model import run_model
 from deepsmorfnet.hmmsearch import run_hmmsearch_nooutput
 from os.path import join, dirname
@@ -13,6 +12,14 @@ def run_hmmsearch(faa):
 
 
 def run_dsn(infile):
-    df = pd.read_csv(infile, sep='\t')
-    model_preds = run_model(df.upstream, df.orf, df.downstream, DSN_MODEL_PATH)
+    upstream, orf, downstream = [], [], []
+    with open(infile) as infile:
+        header = infile.readline().strip('\n').split('\t')
+        for line in infile:
+            line = line.strip('\n').split('\t')
+            line = {header[i]:line[i] for i in range(len(header))}
+            upstream.append(line['upstream'])
+            orf.append(line['orf'])
+            downstream.append(line['downstream'])
+    model_preds = run_model(upstream, orf, downstream, DSN_MODEL_PATH)
     return model_preds
