@@ -3,37 +3,50 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import sys
 stderr = sys.stderr
 import numpy as np
-from os.path import join, dirname
+from keras import backend as K
 
 
-def run_model(fiveprime_seqs, orf_seqs, threeprime_seqs, sensitive):
+def recall_m(y_true, y_pred):
+    true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+    possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
+    recall = true_positives / (possible_positives + K.epsilon())
+    return recall
 
-    if sensitive == True:
-        print("Using sensitive model...")
-        MODEL_PATH = join(dirname(__file__), 'data/keras/sensitive_model.h5')
-    else:
-        print("Using precise model...")
-        MODEL_PATH = join(dirname(__file__), 'data/keras/precise_model.h5')
+
+def precision_m(y_true, y_pred):
+    true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+    predicted_positives = K.sum(K.round(K.clip(y_pred, 0, 1)))
+    precision = true_positives / (predicted_positives + K.epsilon())
+    return precision
+
+
+def f1_m(y_true, y_pred):
+    precision = precision_m(y_true, y_pred)
+    recall = recall_m(y_true, y_pred)
+    return 2 * ((precision * recall) / (precision + recall + K.epsilon()))
+
+
+def run_model(upstream_seqs, orf_seqs, downstream_seqs, dsn_model_path):
 
     sys.stderr = open(os.devnull, 'w')
     from keras.models import load_model
     sys.stderr = stderr
 
-    model = load_model(MODEL_PATH)
+    model = load_model(dsn_model_path, custom_objects={'recall_m': recall_m, 'precision_m': precision_m, 'f1_m': f1_m})
 
-    X_fiveprime, X_orf, X_threeprime = prepare_dataset(fiveprime_seqs, orf_seqs, threeprime_seqs)
+    X_upstream, X_orf, X_downstream = prepare_dataset(upstream_seqs, orf_seqs, downstream_seqs)
 
-    predictions = model.predict([X_orf, X_fiveprime, X_threeprime])
+    predictions = model.predict([X_orf, X_upstream, X_downstream])
 
     return predictions
 
 
-def onehot_encode(seq, size, padding='threeprime'):
+def onehot_encode(seq, size, padding='downstream'):
     vec = np.zeros((size, 4))
     if not isinstance(seq, str):
         seq = ''
     for i, c in enumerate(seq.upper()):
-        if padding == 'fiveprime':
+        if padding == 'upstream':
             i = i + size - len(seq)
         if c == 'A':
             vec[i, 0] = 1
@@ -46,18 +59,18 @@ def onehot_encode(seq, size, padding='threeprime'):
 
     return vec
 
-def prepare_dataset(fiveprime, orf, threeprime):
+def prepare_dataset(upstream, orf, downstream):
     
     X_orf = np.array([onehot_encode(seq, size=153) for seq in orf])
-    X_fiveprime = np.array([onehot_encode(seq, size=100, padding='left') for seq in fiveprime])
-    X_threeprime = np.array([onehot_encode(seq, size=100, padding='right') for seq in threeprime])
+    X_upstream = np.array([onehot_encode(seq, size=100, padding='left') for seq in upstream])
+    X_downstream = np.array([onehot_encode(seq, size=100, padding='right') for seq in downstream])
 
-    return X_fiveprime, X_orf, X_threeprime
+    return X_upstream, X_orf, X_downstream
 
-def write_results_to_file(predictions, names, fiveprime, orf, threeprime, outfile):
+def write_results_to_file(predictions, names, upstream, orf, downstream, outfile):
 
     outfile = open(outfile, 'w')
     print('seqid', 'prob_smorf', '5p_seq', '3p_seq', 'orf_seq', sep='\t', file=outfile)
     for i, pred in enumerate(list(predictions[:,0])):
-        print(names[i], pred, fiveprime[i], threeprime[i], orf[i], sep='\t', file=outfile)
+        print(names[i], pred, upstream[i], downstream[i], orf[i], sep='\t', file=outfile)
     outfile.close()

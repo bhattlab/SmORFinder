@@ -11,6 +11,15 @@ def run_hmmsearch(hmmsearch_path, hmmfile_path, infile, outdir):
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
 
+def run_hmmsearch_nooutput(hmmsearch_path, hmmfile_path, infile):
+    bashCommand = '{hmmsearch} -E 1e-6 {hmmfile} {seqdb}'.format(
+        hmmsearch=hmmsearch_path,
+        hmmfile=hmmfile_path, seqdb=infile
+    )
+    print('hmmsearch command:', bashCommand)
+    process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+    output, error = process.communicate()
+
 def filter_hmmsearch_table(tbl, outtbl):
 
     with open(tbl) as infile:

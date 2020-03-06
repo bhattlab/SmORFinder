@@ -91,10 +91,10 @@ def parse_hmm_results(hmm_tbl):
     out = dict()
     for smorfam in results:
         res = sorted(results[smorfam], key=lambda x: x[1])
-        smorfams = ','.join([i[0] for i in res])
+        smorfam_name = res[0][0]
         min_evalue = res[0][-1]
 
-        out[smorfam] = (smorfams, min_evalue)
+        out[smorfam] = (smorfam_name, min_evalue)
 
     return out
 

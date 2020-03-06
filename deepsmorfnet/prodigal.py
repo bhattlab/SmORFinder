@@ -22,7 +22,6 @@ def run_prodigal(prodigal_path, infile, outdir, meta):
     process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
 
-
 def run_prodigal_simple(prodigal_path, infile, outprefix):
     FNULL = open(devnull, 'w')
     bashCommand = '{prodigal} -c -f gff -o {gff} -a {faa} -d {ffn} -i {input}'.format(
@@ -46,6 +45,10 @@ def run_prodigal_multithread(prodigal_path, infile, outdir, threads):
     filecount = 0
     outrecs = []
     outfiles = []
+
+    if infile.endswith('.gz'):
+        infile = gzip.open(infile, "rt")
+    
     for record in SeqIO.parse(infile, 'fasta'):
         outrecs.append(record)
         if len(outrecs) == record_count_per_file:
@@ -94,16 +97,6 @@ def combine_files(files, outfile, exclude_startswith=[]):
 
 
 
-
-    #bashCommand = '{prodigal} -c -f gff -o {gff} -a {faa} -d {ffn} -i {input} -p meta'.format(
-    #    prodigal=prodigal_path, gff=join(outdir, 'prodigal.gff'), faa=join(outdir, 'prodigal.faa'),
-    #    ffn=join(outdir, 'prodigal.ffn'), input=infile
-    #)
-    #print('prodigal command:', bashCommand)
-    #process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-    #output, error = process.communicate()
-
-
 def revcomp(seq):
     out = ''
     for c in seq[::-1]:
@@ -121,10 +114,16 @@ def revcomp(seq):
 
 def count_records_in_fasta(fasta):
     records = 0
-    with open(fasta) as infile:
-        for line in infile:
-            if line.startswith('>'):
-                records += 1
+    if fasta.endswith('.gz'):
+        with gzip.open(fasta, "rt") as infile:
+            for line in infile:
+                if line.startswith('>'):
+                    records += 1
+    else:
+        with open(fasta) as infile:
+            for line in infile:
+                if line.startswith('>'):
+                    records += 1
     return records
 
 def parse_gff(gff):
