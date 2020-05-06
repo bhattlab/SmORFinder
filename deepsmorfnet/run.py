@@ -10,7 +10,7 @@ from deepsmorfnet.model import *
 from deepsmorfnet.finalize import _finalize
 
 
-def _run(fasta, outdir, threads, prodigal_path, dsn_model_path, smorf_hmm_path, hmmsearch_path, force, mode):
+def _run(fasta, outdir, threads, prodigal_path, dsn1_model_path, dsn2_model_path, smorf_hmm_path, hmmsearch_path, force, mode):
     tmp_dir = join(outdir, 'tmp')
     if force and isdir(outdir):
         shutil.rmtree(outdir)
@@ -33,9 +33,11 @@ def _run(fasta, outdir, threads, prodigal_path, dsn_model_path, smorf_hmm_path, 
     run_hmmsearch(hmmsearch_path, smorf_hmm_path, join(tmp_dir, 'prodigal.small.faa'), tmp_dir)
     click.echo("Extracting nucleotide sequences...")
     names, fiveprime, orf, threeprime = extract_sequences(fasta, join(tmp_dir, 'prodigal.small.gff'))
-    click.echo("Running deep learning model on predicted smORFs...")
-    predictions = run_model(fiveprime, orf, threeprime, dsn_model_path)
-    write_results_to_file(predictions, names, fiveprime, orf, threeprime, join(tmp_dir, 'model_predictions.tsv'))
+    click.echo("Running deep learning models on predicted smORFs...")
+    dsn1_predictions = run_model(fiveprime, orf, threeprime, dsn1_model_path)
+    dsn2_predictions = run_model(fiveprime, orf, threeprime, dsn2_model_path)
+
+    write_results_to_file(dsn1_predictions, dsn2_predictions, names, fiveprime, orf, threeprime, join(tmp_dir, 'model_predictions.tsv'))
     click.echo("Finalizing results...")
     _finalize(outdir, tmp_dir)
 

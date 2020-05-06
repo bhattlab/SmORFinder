@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="deepsmorfnet",
-    version='0.0.7_dev',
+    version='0.0.10_dev',
     description='A command line tool to identify and annotate small proteins in metagenomic sequencing datasets.',
     url='https://github.com/bhattlab/DeepSmORFNET',
     author="Matt Durrant",
@@ -11,11 +11,10 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'click',
-        'keras',
-        'biopython',
-        'tensorflow',
-        'pandas'
+        'click==7.0',
+        'biopython==1.76',
+        'tensorflow==2.1.0',
+        'wget==3.2'
     ],
     zip_safe=False,
     entry_points = {

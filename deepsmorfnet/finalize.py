@@ -13,7 +13,7 @@ def _finalize(outdir, tmp_dir):
 
     keep_ids = set()
     for seqid in model_preds:
-        if seqid in hmm_results or float(model_preds[seqid]['prob_smorf']) > 0.5:
+        if seqid in hmm_results or float(model_preds[seqid]['dsn1_prob_smorf']) > 0.5 or float(model_preds[seqid]['dsn2_prob_smorf']) > 0.5:
             keep_ids.add(seqid)
 
     keep_faa, keep_ffn = [], []
@@ -37,12 +37,13 @@ def _finalize(outdir, tmp_dir):
             continue
 
         try:
-            rec[-1] += 'hmm_smorf_match=' + hmm_results[rec_id][0] + ';'
-            rec[-1] += 'hmm_smorf_evalue=' + str(hmm_results[rec_id][1]) + ';'
+            rec[-1] += 'smorfam=' + hmm_results[rec_id][0] + ';'
+            rec[-1] += 'hmm_smorfam_evalue=' + str(hmm_results[rec_id][1]) + ';'
         except:
-            rec[-1] += 'hmm_smorf_match=None;hmm_smorf_evalue=None;'
+            rec[-1] += 'smorfam=None;hmm_smorfam_evalue=None;'
 
-        rec[-1] += 'model_prob_smorf=' + str(model_preds[rec_id]['prob_smorf']) + ';'
+        rec[-1] += 'model_dsn1_prob_smorf=' + str(model_preds[rec_id]['dsn1_prob_smorf']) + ';'
+        rec[-1] += 'model_dsn2_prob_smorf=' + str(model_preds[rec_id]['dsn2_prob_smorf']) + ';'
         rec[-1] += '5p_seq=' + model_preds[rec_id]['5p_seq'] + ';'
         rec[-1] += 'orf_seq=' + model_preds[rec_id]['orf_seq'] + ';'
         rec[-1] += '3p_seq=' + model_preds[rec_id]['3p_seq'] + ';'
@@ -50,13 +51,13 @@ def _finalize(outdir, tmp_dir):
         try:
             final_table.append(
                 (rec_id, rec[0], rec[3], rec[4], rec[6], hmm_results[rec_id][0], str(hmm_results[rec_id][1]),
-                 model_preds[rec_id]['prob_smorf'], model_preds[rec_id]['5p_seq'], model_preds[rec_id]['orf_seq'],
+                 model_preds[rec_id]['dsn1_prob_smorf'], model_preds[rec_id]['dsn2_prob_smorf'], model_preds[rec_id]['5p_seq'], model_preds[rec_id]['orf_seq'],
                  model_preds[rec_id]['3p_seq'])
             )
         except:
             final_table.append(
                 (rec_id, rec[0], rec[3], rec[4], rec[6], '', '',
-                 model_preds[rec_id]['prob_smorf'], model_preds[rec_id]['5p_seq'], model_preds[rec_id]['orf_seq'],
+                 model_preds[rec_id]['dsn1_prob_smorf'], model_preds[rec_id]['dsn2_prob_smorf'], model_preds[rec_id]['5p_seq'], model_preds[rec_id]['orf_seq'],
                  model_preds[rec_id]['3p_seq'])
             )
 
@@ -64,7 +65,7 @@ def _finalize(outdir, tmp_dir):
     outgff.close()
 
     with open(join(outdir, final_prefix + '.tsv'), 'w') as outfile:
-        print('seqid', 'contig', 'start', 'end', 'orient', 'hmm_smorf_match', 'hmm_smorf_evalue', 'model_prob_smorf',
+        print('seqid', 'contig', 'start', 'end', 'orient', 'smorfam', 'hmm_smorfam_evalue', 'dsn1_prob_smorf', 'dsn2_prob_smorf',
               '5p_seq', 'orf', '3p_seq', sep='\t', file=outfile)
         for rec in final_table:
             rec = list(map(str, rec))

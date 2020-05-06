@@ -1,5 +1,3 @@
 include deepsmorfnet/bin/hmmscan
 include deepsmorfnet/bin/hmmsearch
 include deepsmorfnet/bin/prodigal
-include deepsmorfnet/data/hmm/smorfams.hmm
-include deepsmorfnet/data/keras/dsn_model.h5

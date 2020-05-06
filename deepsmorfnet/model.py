@@ -3,7 +3,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import sys
 stderr = sys.stderr
 import numpy as np
-from keras import backend as K
+from tensorflow.keras import backend as K
 
 
 def recall_m(y_true, y_pred):
@@ -29,14 +29,14 @@ def f1_m(y_true, y_pred):
 def run_model(upstream_seqs, orf_seqs, downstream_seqs, dsn_model_path):
 
     sys.stderr = open(os.devnull, 'w')
-    from keras.models import load_model
+    from tensorflow.keras.models import load_model
     sys.stderr = stderr
 
     model = load_model(dsn_model_path, custom_objects={'recall_m': recall_m, 'precision_m': precision_m, 'f1_m': f1_m})
 
     X_upstream, X_orf, X_downstream = prepare_dataset(upstream_seqs, orf_seqs, downstream_seqs)
 
-    predictions = model.predict([X_orf, X_upstream, X_downstream])
+    predictions = model.predict([X_orf, X_upstream, X_downstream], verbose=1)
 
     return predictions
 
@@ -59,6 +59,7 @@ def onehot_encode(seq, size, padding='downstream'):
 
     return vec
 
+
 def prepare_dataset(upstream, orf, downstream):
     
     X_orf = np.array([onehot_encode(seq, size=153) for seq in orf])
@@ -67,10 +68,11 @@ def prepare_dataset(upstream, orf, downstream):
 
     return X_upstream, X_orf, X_downstream
 
-def write_results_to_file(predictions, names, upstream, orf, downstream, outfile):
+
+def write_results_to_file(predictions_dsn1, predictions_dsn2, names, upstream, orf, downstream, outfile):
 
     outfile = open(outfile, 'w')
-    print('seqid', 'prob_smorf', '5p_seq', '3p_seq', 'orf_seq', sep='\t', file=outfile)
-    for i, pred in enumerate(list(predictions[:,0])):
-        print(names[i], pred, upstream[i], downstream[i], orf[i], sep='\t', file=outfile)
+    print('seqid', 'dsn1_prob_smorf', 'dsn2_prob_smorf', '5p_seq', '3p_seq', 'orf_seq', sep='\t', file=outfile)
+    for i, preds in enumerate(zip(list(predictions_dsn1[:,0]), list(predictions_dsn2[:,0]))):
+        print(names[i], preds[0], preds[1], upstream[i], downstream[i], orf[i], sep='\t', file=outfile)
     outfile.close()
