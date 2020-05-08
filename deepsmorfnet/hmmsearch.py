@@ -3,7 +3,7 @@ from os.path import join
 
 
 def run_hmmsearch(hmmsearch_path, hmmfile_path, infile, outdir):
-    bashCommand = '{hmmsearch} -E 1e-6 -o {out} --tblout {outtbl} {hmmfile} {seqdb}'.format(
+    bashCommand = '{hmmsearch} -E 1.0 -o {out} --tblout {outtbl} {hmmfile} {seqdb}'.format(
         hmmsearch=hmmsearch_path, out=join(outdir, 'hmmsearch.out'), outtbl=join(outdir, 'hmmsearch.tbl'),
         hmmfile=hmmfile_path, seqdb=infile
     )
@@ -12,7 +12,7 @@ def run_hmmsearch(hmmsearch_path, hmmfile_path, infile, outdir):
     output, error = process.communicate()
 
 def run_hmmsearch_nooutput(hmmsearch_path, hmmfile_path, infile):
-    bashCommand = '{hmmsearch} -E 1e-6 {hmmfile} {seqdb}'.format(
+    bashCommand = '{hmmsearch} -E 1.0 {hmmfile} {seqdb}'.format(
         hmmsearch=hmmsearch_path,
         hmmfile=hmmfile_path, seqdb=infile
     )
