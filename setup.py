@@ -19,7 +19,7 @@ setup(
     zip_safe=False,
     entry_points = {
         'console_scripts': [
-            'dsn = smorfinder.main:cli'
+            'smorf = smorfinder.main:cli'
         ],
 }
 )
