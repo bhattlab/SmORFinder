@@ -23,6 +23,6 @@ And you can run it on a metagenome, with multiple threads, with the command:
 
 # DBsmORF
 
-This is a web server that allows you to download pre-computed smORF annotations for hundreds of thousands of RefSeq genomes and HMP metagenomes. It can also annotate your own genomes and annotations through
+This is a web server that allows you to download pre-computed smORF annotations for hundreds of thousands of RefSeq genomes and HMP metagenomes. It can also annotate your own genomes and annotations through a web form with *SmORFinder*.
 
 ## [Go to DBsMORF Now!](http://104.154.134.205:3838/DBsmORF/)
