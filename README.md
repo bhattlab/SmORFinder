@@ -1,5 +1,5 @@
 # SmORFinder
-A command line tool to identify and annotate small proteins in microbial sequencing datasets.
+A command line tool to identify and annotate small proteins in genomes and metagenomes.
 
 # Installation
 

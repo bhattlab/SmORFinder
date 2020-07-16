@@ -1,7 +1,7 @@
 import click
-from deepsmorfnet import *
-from deepsmorfnet.help import CustomHelp
-from deepsmorfnet.run import _run
+from smorfinder import *
+from smorfinder.help import CustomHelp
+from smorfinder.run import _run
 
 @click.group(cls=CustomHelp)
 def cli():
@@ -9,9 +9,9 @@ def cli():
     pass
 
 
-@cli.command(short_help='Run deepsmorfnet on a complete or draft sequence of a single species.', help_priority=1)
+@cli.command(short_help='Run SmORFinder on a complete or draft sequence of a single species.', help_priority=1)
 @click.argument('fasta', type=click.Path(exists=True))
-@click.option('--outdir', '-o', default='dsn_output')
+@click.option('--outdir', '-o', default='smorf_output')
 @click.option('--prodigal-path', '-pp', default=PRODIGAL_PATH, type=click.Path(exists=True))
 @click.option('--dsn1-model-path', '-shp', default=DSN1_MODEL_PATH, type=click.Path(exists=True))
 @click.option('--dsn2-model-path', '-shp', default=DSN2_MODEL_PATH, type=click.Path(exists=True))
@@ -33,9 +33,9 @@ def single(fasta, outdir, prodigal_path, dsn1_model_path, dsn2_model_path, smorf
     _run(fasta, outdir, 1, prodigal_path, dsn1_model_path, dsn2_model_path, smorf_hmm_path, hmmsearch_path, force, dsn1_indiv_cutoff, dsn2_indiv_cutoff, phmm_indiv_cutoff, dsn1_overlap_cutoff, dsn2_overlap_cutoff, phmm_overlap_cutoff, mode='single')
 
 
-@cli.command(short_help='Run deepsmorfnet on a metagenomic assembly.', help_priority=2)
+@cli.command(short_help='Run SmORFinder on a metagenomic assembly.', help_priority=2)
 @click.argument('fasta', type=click.Path(exists=True))
-@click.option('--outdir', '-o', default='dsn_output')
+@click.option('--outdir', '-o', default='smorf_output')
 @click.option('--threads', '-t', default=1)
 @click.option('--prodigal-path', '-pp', default=PRODIGAL_PATH, type=click.Path(exists=True))
 @click.option('--dsn1-model-path', '-shp', default=DSN1_MODEL_PATH, type=click.Path(exists=True))

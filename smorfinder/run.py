@@ -4,10 +4,10 @@ from os import makedirs
 from os.path import join, isdir
 import shutil
 from Bio import SeqIO
-from deepsmorfnet.prodigal import *
-from deepsmorfnet.hmmsearch import run_hmmsearch
-from deepsmorfnet.model import *
-from deepsmorfnet.finalize import _finalize
+from smorfinder.prodigal import *
+from smorfinder.hmmsearch import run_hmmsearch
+from smorfinder.model import *
+from smorfinder.finalize import _finalize
 
 
 def _run(fasta, outdir, threads, prodigal_path, dsn1_model_path, dsn2_model_path, smorf_hmm_path, hmmsearch_path, force, dsn1_indiv_cutoff, dsn2_indiv_cutoff, phmm_indiv_cutoff, dsn1_overlap_cutoff, dsn2_overlap_cutoff, phmm_overlap_cutoff, mode):

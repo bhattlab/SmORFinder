@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="deepsmorfnet",
-    version='0.0.12_dev',
-    description='A command line tool to identify and annotate small proteins in metagenomic sequencing datasets.',
-    url='https://github.com/bhattlab/DeepSmORFNET',
+    name="smorfinder",
+    version='0.0.1_dev',
+    description='A command line tool to identify and annotate small proteins in genomes and metagenomes.',
+    url='https://github.com/bhattlab/SmORFinder',
     author="Matt Durrant",
     author_email="mdurrant@stanford.edu",
     license="MIT",
@@ -19,7 +19,7 @@ setup(
     zip_safe=False,
     entry_points = {
         'console_scripts': [
-            'dsn = deepsmorfnet.main:cli'
+            'dsn = smorfinder.main:cli'
         ],
 }
 )
