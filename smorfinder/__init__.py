@@ -16,17 +16,17 @@ def download_data():
     if not isfile(SMORFHMM_PATH):
         print("Downloading HMM models...")
         makedirs(dirname(SMORFHMM_PATH), exist_ok=True)
-        wget.download('https://storage.googleapis.com/smorfinder/downloads/smorfams.hmm', SMORFHMM_PATH)
+        wget.download('https://storage.googleapis.com/deepsmorfnet/downloads/smorfams.hmm', SMORFHMM_PATH)
         print()
     if not isfile(DSN1_MODEL_PATH):
         print("Downloading DSN1 model...")
         makedirs(dirname(DSN1_MODEL_PATH), exist_ok=True)
-        wget.download('https://storage.googleapis.com/smorfinder/downloads/dsn1_model.h5', DSN1_MODEL_PATH)
+        wget.download('https://storage.googleapis.com/deepsmorfnet/downloads/dsn1_model.h5', DSN1_MODEL_PATH)
         print()
     if not isfile(DSN2_MODEL_PATH):
         print("Downloading DSN2 model...")
         makedirs(dirname(DSN2_MODEL_PATH), exist_ok=True)
-        wget.download('https://storage.googleapis.com/smorfinder/downloads/dsn2_model.h5', DSN2_MODEL_PATH)
+        wget.download('https://storage.googleapis.com/deepsmorfnet/downloads/dsn2_model.h5', DSN2_MODEL_PATH)
         print()
 
 def run_hmmsearch(faa):
