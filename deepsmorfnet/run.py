@@ -10,7 +10,7 @@ from deepsmorfnet.model import *
 from deepsmorfnet.finalize import _finalize
 
 
-def _run(fasta, outdir, threads, prodigal_path, dsn1_model_path, dsn2_model_path, smorf_hmm_path, hmmsearch_path, force, mode):
+def _run(fasta, outdir, threads, prodigal_path, dsn1_model_path, dsn2_model_path, smorf_hmm_path, hmmsearch_path, force, dsn1_indiv_cutoff, dsn2_indiv_cutoff, phmm_indiv_cutoff, dsn1_overlap_cutoff, dsn2_overlap_cutoff, phmm_overlap_cutoff, mode):
     tmp_dir = join(outdir, 'tmp')
     if force and isdir(outdir):
         shutil.rmtree(outdir)
@@ -39,6 +39,5 @@ def _run(fasta, outdir, threads, prodigal_path, dsn1_model_path, dsn2_model_path
 
     write_results_to_file(dsn1_predictions, dsn2_predictions, names, fiveprime, orf, threeprime, join(tmp_dir, 'model_predictions.tsv'))
     click.echo("Finalizing results...")
-    _finalize(outdir, tmp_dir)
-
+    _finalize(outdir, tmp_dir, dsn1_indiv_cutoff, dsn2_indiv_cutoff, phmm_indiv_cutoff, dsn1_overlap_cutoff, dsn2_overlap_cutoff, phmm_overlap_cutoff)
 

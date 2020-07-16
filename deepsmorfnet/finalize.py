@@ -4,7 +4,10 @@ from Bio import SeqIO
 from os import makedirs
 from shutil import move
 
-def _finalize(outdir, tmp_dir):
+
+exclude_smorfams = set(["smorfam03198", "smorfam03422", "smorfam03457", "smorfam03517", "smorfam03519", "smorfam03522", "smorfam03524", "smorfam03526", "smorfam03530", "smorfam03551", "smorfam03557", "smorfam03562", "smorfam03585", "smorfam03614", "smorfam03841"])
+
+def _finalize(outdir, tmp_dir, dsn1_indiv_cutoff, dsn2_indiv_cutoff, phmm_indiv_cutoff, dsn1_overlap_cutoff, dsn2_overlap_cutoff, phmm_overlap_cutoff):
 
     final_prefix = basename(outdir)
 
@@ -13,7 +16,17 @@ def _finalize(outdir, tmp_dir):
 
     keep_ids = set()
     for seqid in model_preds:
-        if seqid in hmm_results or float(model_preds[seqid]['dsn1_prob_smorf']) > 0.5 or float(model_preds[seqid]['dsn2_prob_smorf']) > 0.5:
+        
+        if seqid in hmm_results and hmm_results[seqid][0] in exclude_smorfams:
+                continue
+
+        phmm_evalue = None
+        try:
+            phmm_evalue = float(hmm_results[seqid][1])
+        except:
+            pass
+
+        if meets_significance_cutoffs(float(model_preds[seqid]['dsn1_prob_smorf']), float(model_preds[seqid]['dsn2_prob_smorf']), phmm_evalue, dsn1_indiv_cutoff, dsn2_indiv_cutoff, phmm_indiv_cutoff, dsn1_overlap_cutoff, dsn2_overlap_cutoff, phmm_overlap_cutoff):
             keep_ids.add(seqid)
 
     keep_faa, keep_ffn = [], []
@@ -70,6 +83,25 @@ def _finalize(outdir, tmp_dir):
         for rec in final_table:
             rec = list(map(str, rec))
             print(*rec, sep='\t', file=outfile)
+
+
+def meets_significance_cutoffs(dsn1_prob, dsn2_prob, phmm_evalue, dsn1_indiv_cutoff, dsn2_indiv_cutoff, phmm_indiv_cutoff, dsn1_overlap_cutoff, dsn2_overlap_cutoff, phmm_overlap_cutoff):
+
+    
+    if dsn1_prob > dsn1_indiv_cutoff or dsn2_prob > dsn2_indiv_cutoff:
+        return True
+
+    if phmm_evalue is not None and phmm_evalue < phmm_indiv_cutoff:
+        return True
+
+    if phmm_evalue is None:
+        return False
+    
+    if dsn1_prob > dsn1_overlap_cutoff and dsn2_prob > dsn2_overlap_cutoff and phmm_evalue < phmm_overlap_cutoff:
+        return True
+
+    return False
+
 
 def parse_gff(gff):
     with open(gff) as infile:

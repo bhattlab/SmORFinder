@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="deepsmorfnet",
-    version='0.0.11_dev',
+    version='0.0.12_dev',
     description='A command line tool to identify and annotate small proteins in metagenomic sequencing datasets.',
     url='https://github.com/bhattlab/DeepSmORFNET',
     author="Matt Durrant",
