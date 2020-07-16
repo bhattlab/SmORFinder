@@ -1,25 +1,25 @@
-# DeepSmORFNet
+# SmORFinder
 A command line tool to identify and annotate small proteins in microbial sequencing datasets.
 
 # Installation
 
-*DeepSmORFNet* can be installed with pip:
+*SmORFinder* can be installed with pip:
 
-    pip install deepsmorfnet
+    pip install smorfinder
 
 You can then download the necessary data files just by running the command
 
-    dsn
+    smorf
 
 # Quick start
 
-You can run *DeepSmORFnet* on a single isolate genome with the command:
+You can run *SmORFinder* on a single isolate genome with the command:
 
-    dsn single myGenome.fna
+    smorf single myGenome.fna
   
 And you can run it on a metagenome, with multiple threads, with the command:
 
-    dsn meta myMetagenome.fna
+    smorf meta myMetagenome.fna
 
 # DBsmORF
 
