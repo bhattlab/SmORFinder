@@ -5,21 +5,21 @@ A command line tool to identify and annotate small proteins in microbial sequenc
 
 *DeepSmORFNet* can be installed with pip:
 
-  pip install deepsmorfnet
+    pip install deepsmorfnet
 
 You can then download the necessary data files just by running the command
 
-  dsn
+    dsn
 
 # Quick start
 
 You can run *DeepSmORFnet* on a single isolate genome with the command:
 
-  dsn single myGenome.fna
+    dsn single myGenome.fna
   
 And you can run it on a metagenome, with multiple threads, with the command:
 
-  dsn meta myMetagenome.fna
+    dsn meta myMetagenome.fna
 
 # DBsmORF
 
