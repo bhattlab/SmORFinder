@@ -9,7 +9,7 @@ def cli():
     pass
 
 
-@cli.command(short_help='Run SmORFinder on a complete or draft sequence of a single species.', help_priority=1)
+@cli.command(short_help='Run SmORFinder on a complete or draft genome assembly of a single species.', help_priority=1)
 @click.argument('fasta', type=click.Path(exists=True))
 @click.option('--outdir', '-o', default='smorf_output')
 @click.option('--prodigal-path', '-pp', default=PRODIGAL_PATH, type=click.Path(exists=True))
