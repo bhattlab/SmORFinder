@@ -23,7 +23,7 @@ def run_prodigal(prodigal_path, infile, outdir, meta):
 
 def run_prodigal_simple(prodigal_path, infile, outprefix):
     FNULL = open(devnull, 'w')
-    bashCommand = '{prodigal} -c -f gff -o {gff} -a {faa} -d {ffn} -i {input}'.format(
+    bashCommand = '{prodigal} -p meta -c -f gff -o {gff} -a {faa} -d {ffn} -i {input}'.format(
         prodigal=prodigal_path, gff=outprefix + '.gff', faa=outprefix + '.faa',
         ffn=outprefix + '.ffn', input=infile
     )

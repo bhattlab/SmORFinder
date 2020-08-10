@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="smorfinder",
-    version='0.0.2_dev',
+    version='0.0.3_dev',
     description='A command line tool to identify and annotate small proteins in genomes and metagenomes.',
     url='https://github.com/bhattlab/SmORFinder',
     author="Matt Durrant",

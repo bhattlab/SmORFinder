@@ -4,7 +4,7 @@ from os.path import join, dirname, isfile
 from os import makedirs
 import wget
 
-__version__ = '0.0.2_dev'
+__version__ = '0.0.3_dev'
 
 PRODIGAL_PATH = join(dirname(__file__), 'bin/prodigal')
 HMMSEARCH_PATH = join(dirname(__file__), 'bin/hmmsearch')
