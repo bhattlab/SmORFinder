@@ -3,11 +3,15 @@ from smorfinder.hmmsearch import run_hmmsearch_nooutput
 from os.path import join, dirname, isfile
 from os import makedirs
 import wget
+import sys
 
 __version__ = '0.0.3_dev'
 
-PRODIGAL_PATH = join(dirname(__file__), 'bin/prodigal')
-HMMSEARCH_PATH = join(dirname(__file__), 'bin/hmmsearch')
+# Check system OS, using Linux as catchall (Windows not explicitly supported)
+platform = 'mac' if sys.platform == 'darwin' else 'linux'
+
+PRODIGAL_PATH = join(dirname(__file__), 'bin/%s/prodigal' % platform)
+HMMSEARCH_PATH = join(dirname(__file__), 'bin/%s/hmmsearch' % platform)
 DSN1_MODEL_PATH = join(dirname(__file__), 'data/keras/dsn1_model.h5')
 DSN2_MODEL_PATH = join(dirname(__file__), 'data/keras/dsn2_model.h5')
 SMORFHMM_PATH = join(dirname(__file__), 'data/hmm/smorfams.hmm')
