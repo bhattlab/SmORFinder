@@ -5,7 +5,7 @@ from os import makedirs
 import wget
 import sys
 
-__version__ = '0.0.3_dev'
+__version__ = '1.0.0'
 
 # Check system OS, using Linux as catchall (Windows not explicitly supported)
 platform = 'mac' if sys.platform == 'darwin' else 'linux'

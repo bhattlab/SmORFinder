@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="smorfinder",
-    version='0.0.3_dev',
+    version='1.0.0',
     description='A command line tool to identify and annotate small proteins in genomes and metagenomes.',
     url='https://github.com/bhattlab/SmORFinder',
     author="Matt Durrant",
@@ -13,7 +13,7 @@ setup(
     install_requires=[
         'click==7.0',
         'biopython==1.76',
-        'tensorflow>=2.1.0,<=2.2.0',
+        'tensorflow==2.3.1',
         'wget==3.2'
     ],
     zip_safe=False,
