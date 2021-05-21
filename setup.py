@@ -13,7 +13,7 @@ setup(
     install_requires=[
         'click==7.0',
         'biopython==1.76',
-        'tensorflow==2.3.1',
+        'tensorflow==2.5.0',
         'wget==3.2'
     ],
     zip_safe=False,
